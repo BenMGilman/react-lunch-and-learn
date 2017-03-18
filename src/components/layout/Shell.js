@@ -10,7 +10,9 @@ class Shell extends React.Component {
                     <header className="clearfix">
                         <TopNav title="Insights"/>
                     </header>
-                    {this.props.children}
+                    <div className="content-body">
+                        {this.props.children}
+                    </div>
                 </div>
             </MuiThemeProvider>
         );

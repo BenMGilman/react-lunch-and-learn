@@ -3,16 +3,6 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import crederaLogo from '../../styles/images/credera-logo.png';
 
-const styles = {
-    title: {
-        fontSize: '20px',
-        fontWeight: 300
-    },
-    button: {
-
-    }
-};
-
 const TopNav = ({title}) => {
     return (
         <AppBar className="top-nav"
