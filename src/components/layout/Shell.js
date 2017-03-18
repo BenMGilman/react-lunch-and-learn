@@ -1,12 +1,15 @@
 import React, {PropTypes} from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import TopNav from './TopNav';
 
 class Shell extends React.Component {
     render() {
         return (
             <MuiThemeProvider>
                 <div>
-                    <header className="clearfix"/>
+                    <header className="clearfix">
+                        <TopNav title="Insights"/>
+                    </header>
                     {this.props.children}
                 </div>
             </MuiThemeProvider>
