@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import searchIcon from '../../styles/icons/search.svg';
 
 const categories = [
   {value: 'credera-site', title: 'All'},
@@ -22,18 +26,20 @@ class BlogPage extends Component {
       selectedCategory: categories[0]
     };
     this._selectCategory = this._selectCategory.bind(this);
+    this._selectSortBy = this._selectSortBy.bind(this);
   }
 
-  _selectCategory(cat) {
-    this.setState({
-      selectedCategory: cat
-    });
+  _selectCategory(selectedCategory) {
+    this.setState({selectedCategory});
+  }
+  _selectSortBy(e, idx, sortBy) {
+    this.setState({sortBy});
   }
   
   render() {
     return (
       <div className="blog-select">
-        <div className="search">
+        <div className="search-container">
           <div className="categories">
             {categories.map((cat, idx) => {
               const isSelected = cat === this.state.selectedCategory;
@@ -44,6 +50,20 @@ class BlogPage extends Component {
                 </div>
               );
             })}
+          </div>
+          <div className="search">
+            <div className="search-input">
+              <img src={searchIcon}/>
+              <TextField hintText="Search Insights" fullWidth/>
+            </div>
+            <SelectField
+              hintText="Sort By"
+              value={this.state.sortBy}
+              onChange={this._selectSortBy}>
+              {sortByOpts.map((sortBy, idx) => 
+                <MenuItem key={idx} value={sortBy.value} primaryText={sortBy.title}/>
+              )}
+            </SelectField>
           </div>
         </div>
       </div>

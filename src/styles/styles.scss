@@ -55,14 +55,34 @@ body,
   }
 }
 
-.search {
+.search-container {
   margin-left: 10%;
   width: 80%;
   padding: 6px 8px;
-  .categories {
+  .categories, .search, .search-input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+  .search {
+    margin-top: 8px;
+    .search-input {
+      width: 80%;
+      img {
+        width: 24px;
+        margin: 8px 8px 8px 0;
+      }
+    }
+    > div {
+      margin: 10px;
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }
 
