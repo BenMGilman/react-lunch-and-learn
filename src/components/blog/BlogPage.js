@@ -27,12 +27,13 @@ class BlogPage extends Component {
 
     this.state = {
       selectedCategory: categories[0],
-      blogs: []
+      filteredBlogs: []
     };
 
     this._selectCategory = this._selectCategory.bind(this);
     this._selectSortBy = this._selectSortBy.bind(this);
     this._getBlogs = this._getBlogs.bind(this);
+    this._filter = this._filter.bind(this);
   }
 
   componentWillMount() {
@@ -48,10 +49,19 @@ class BlogPage extends Component {
     this._getBlogs(sortBy, this.state.selectedCategory);
   }
 
+  _filter(e) {
+    const newValue = e.target.value;
+    this.setState({
+      filteredBlogs: this.blogs.filter(blog => 
+        blog.title.includes(newValue) || blog.excerpt.includes(newValue))
+    });
+  }
+
   _getBlogs(sortBy, selectedCategory) {
     return queryBlogs(sortBy, selectedCategory.value)
     .then(blogs => {
-      this.setState({blogs});
+      this.blogs = blogs;
+      this.setState({filteredBlogs: blogs});
     });
   }
   
@@ -73,7 +83,7 @@ class BlogPage extends Component {
           <div className="search">
             <div className="search-input">
               <img src={searchIcon}/>
-              <TextField hintText="Search Insights" fullWidth/>
+              <TextField hintText="Search Insights" fullWidth onChange={this._filter}/>
             </div>
             <SelectField
               hintText="Sort By"
@@ -86,7 +96,7 @@ class BlogPage extends Component {
           </div>
         </div>
         <div className="blogs">
-          {this.state.blogs.map(blog => (
+          {this.state.filteredBlogs.map(blog => (
             <div key={blog.ID} className="blog-card-wrapper">
               <BlogCard blog={blog}/>
             </div>
