@@ -10,6 +10,8 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import config from '../webpack.config.dev';
+import proxy from 'http-proxy-middleware';
+import https from 'https';
 
 const bundler = webpack(config);
 
@@ -24,6 +26,14 @@ browserSync({
 
     middleware: [
       historyApiFallback(),
+            
+      proxy('https://www.credera.com/api', {
+        agent: https.globalAgent,//new HttpsAgent('https://www.credera.com'),
+        logLevel: 'debug',
+        headers: {
+          host: 'credera.com'
+        }
+      }),
 
       webpackDevMiddleware(bundler, {
         // Dev middleware can't access config, so we provide publicPath
@@ -44,7 +54,7 @@ browserSync({
 
         // for other settings see
         // http://webpack.github.io/docs/webpack-dev-middleware.html
-      }),
+      }),      
 
       // bundler should be the same as above
       webpackHotMiddleware(bundler)

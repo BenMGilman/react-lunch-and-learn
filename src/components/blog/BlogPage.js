@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import searchIcon from '../../styles/icons/search.svg';
+import {query as queryBlogs} from '../../api/blogs';
 
 const categories = [
   {value: 'credera-site', title: 'All'},
@@ -22,18 +23,30 @@ const sortByOpts = [
 class BlogPage extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.state = {
       selectedCategory: categories[0]
     };
+
     this._selectCategory = this._selectCategory.bind(this);
     this._selectSortBy = this._selectSortBy.bind(this);
+    this._getBlogs = this._getBlogs.bind(this);
   }
 
   _selectCategory(selectedCategory) {
     this.setState({selectedCategory});
+    this._getBlogs();
   }
   _selectSortBy(e, idx, sortBy) {
     this.setState({sortBy});
+    this._getBlogs();
+  }
+
+  _getBlogs() {
+    return queryBlogs(this.state.selectedCategory.value, this.state.sortBy)
+    .then(blogs => {
+      console.log(blogs);
+    });
   }
   
   render() {
