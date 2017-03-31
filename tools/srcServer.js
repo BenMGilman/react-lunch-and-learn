@@ -27,7 +27,8 @@ browserSync({
     middleware: [
       historyApiFallback(),
             
-      proxy('https://www.credera.com/api', {
+      proxy(['/api', '/wp-content'], {
+        target: 'https://www.credera.com',
         agent: https.globalAgent,//new HttpsAgent('https://www.credera.com'),
         logLevel: 'debug',
         headers: {

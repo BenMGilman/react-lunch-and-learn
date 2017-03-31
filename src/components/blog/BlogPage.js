@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import BlogCard from './BlogCard';
 import searchIcon from '../../styles/icons/search.svg';
 import {query as queryBlogs} from '../../api/blogs';
 
@@ -25,7 +26,8 @@ class BlogPage extends Component {
     super(props, context);
 
     this.state = {
-      selectedCategory: categories[0]
+      selectedCategory: categories[0],
+      blogs: []
     };
 
     this._selectCategory = this._selectCategory.bind(this);
@@ -33,19 +35,23 @@ class BlogPage extends Component {
     this._getBlogs = this._getBlogs.bind(this);
   }
 
+  componentWillMount() {
+    this._getBlogs(this.state.sortBy, this.state.selectedCategory);
+  }
+
   _selectCategory(selectedCategory) {
     this.setState({selectedCategory});
-    this._getBlogs();
+    this._getBlogs(this.state.sortBy, selectedCategory);
   }
   _selectSortBy(e, idx, sortBy) {
     this.setState({sortBy});
-    this._getBlogs();
+    this._getBlogs(sortBy, this.state.selectedCategory);
   }
 
-  _getBlogs() {
-    return queryBlogs(this.state.selectedCategory.value, this.state.sortBy)
+  _getBlogs(sortBy, selectedCategory) {
+    return queryBlogs(sortBy, selectedCategory.value)
     .then(blogs => {
-      console.log(blogs);
+      this.setState({blogs});
     });
   }
   
@@ -78,6 +84,13 @@ class BlogPage extends Component {
               )}
             </SelectField>
           </div>
+        </div>
+        <div className="blogs">
+          {this.state.blogs.map(blog => (
+            <div key={blog.ID} className="blog-card-wrapper">
+              <BlogCard blog={blog}/>
+            </div>
+          ))}
         </div>
       </div>
     );

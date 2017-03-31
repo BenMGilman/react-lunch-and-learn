@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch';
 
-const api = '/api/insights/';
+const api = '/api/insights/?page=0&resultsPerPage=250';
 
-export function query(category = 'news', sort) {
-    return fetch(`${api}?categoryName=${category}` + (sort ? `&sortField=${sort}` : ''), {
+export function query(sort, category = 'news') {
+    return fetch(`${api}&categoryName=${category}` + (sort ? `&sortField=${sort}` : ''), {
         headers: {
             'Content-Type': 'application/json'
         }
